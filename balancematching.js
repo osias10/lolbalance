@@ -11,12 +11,15 @@ var server= http.createServer(app);
 let port=3010;
 
 //예시 json파일 읽기
-let testteamjson=fs.readFileSync('C:/jh/IT/Programing/nodejs/lolbalance/lolbalance/exampleTeam.json','utf-8');
-//let data=JSON.parse(testteamjson);
+//let testteamjson=fs.readFileSync('C:/jh/IT/Programing/nodejs/lolbalance/lolbalance/exampleTeam.json','utf-8');
+let testteamjson=fs.readFileSync('./exampleTeam.json','utf-8');
+let allsummoner=JSON.parse(testteamjson);
 //console.log("json:"+data);
-console.log(testteamjson);
+
+//console.log(allsummoner[0].nickname);
 
 
+//배열 비교 및 값은 값 제거 (총 인원에서 team1 인원을 뺀 나머지만 구함)
 function secondTeam(arr,arr2){
     let t;
     let arrt = arr.slice(0);
@@ -35,7 +38,38 @@ function secondTeam(arr,arr2){
 }
 
 
+//해당 소환사의 티어 가져오기
+function summonerTier(allsummoner,nickname){
+  
+  for (let i=0;i<allsummoner.length;i++){
+    if (allsummoner[i].nickname.indexOf(nickname)>-1){
+      return allsummoner[i].tier;
+    }
+
+  }
+
+}
+
+function tieravg(team){
+  let avg=0.0000000000;
+  //console.log(team);
+  for (i=0;i<team.length;i++){
+    avg=avg+tiercal(summonerTier(allsummoner,team[i]));
+    
+  }
+  
+  avg=avg/(team.length);
+  
+  return avg;
+}
+
+
+
+
+
 function combination(arr,r){
+
+  
     arr = arr.sort();
     let used = new Array();
     if ( arr.length <10){
@@ -53,7 +87,7 @@ function combination(arr,r){
   
   
         //console.log("team1: "+chosen);
-
+        //console.log(tieravg(chosen));
         let team2 = secondTeam(arr,chosen);
         //console.log("team2: "+team2);
 
@@ -85,10 +119,17 @@ function combination(arr,r){
     generate(new Array());
 }
 
-//배열 비교 및 값은 값 제거 (총 인원에서 team1 인원을 뺀 나머지만 구함)
 
 
-
+//소환사 목록
+function getsummonernames(allsummoner){
+  let sm=[]
+  for (i=0;i<allsummoner.length;i++){
+    sm.push(allsummoner[i].nickname);
+    //console.log(sm+"   "+i);
+  }
+  return sm;
+}
 
 
 
@@ -97,14 +138,21 @@ function combination(arr,r){
 
 
   //뽑을 목록
-let arr=[1,2,3,4,5,6,7,8,9,10];
-  
+//let arr=[1,2,3,4,5,6,7,8,9,10];
+//소환사 이름 추출
+let summonernames= getsummonernames(allsummoner);
+
+
+//console.log(summonernames);
+//console.log(summonernames.indexOf("4번"));  
+
   //r개씩 뽑음
 let r=5;
-  
-combination(arr,r);
-  
 
+combination(summonernames,r);
+  
+//console.log(tiercal(summonerTier(allsummoner,"9번")));
+//console.log(tieravg(["3번","1번","10번"]));
 
 
 server.listen(port, function() {

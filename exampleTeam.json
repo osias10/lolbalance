@@ -1,5 +1,13 @@
-{
-    "nickname" : ["1번","2번","3번","4번","5번","6번","7번","8번","9번","10번"],
-    "tier" : ["gold2","platinum3","iron3","gold1","silver3","bronze1","diamond4","platinum3","silver4","bronze2"]
+[
+    {"nickname": "3번", "tier": "gold2"},
+    {"nickname": "2번", "tier": "platinum3"},
+    {"nickname": "1번", "tier": "iron3"},
+    {"nickname": "4번", "tier": "gold1"},
+    {"nickname": "5번", "tier": "silver3"},
+    {"nickname": "6번", "tier": "bronze1"},
+    {"nickname": "7번", "tier": "diamond4"},
+    {"nickname": "8번", "tier": "platinum3"},
+    {"nickname": "9번", "tier": "silver4"},
+    {"nickname": "10번", "tier": "bronze2"}
     
-}
+]
