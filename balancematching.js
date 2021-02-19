@@ -18,6 +18,30 @@ let allsummoner=JSON.parse(testteamjson);
 
 //console.log(allsummoner[0].nickname);
 
+let allcombination=[]
+
+//모든 조합 저장
+function getallcombination(arr,avgdiff,team1,team2){
+  arr.push([avgdiff,team1,team2]);
+  
+  arr.sort(function(a,b){
+    //console.log(a[0]+"-"+[b[0]]);
+    return a[0] - b[0];
+  });
+  //console.log(team1);
+  return arr;
+}
+//avgdiff(밸런스값차이 순으로 정렬)
+/*
+ta.sort(function(a,b){
+console.log(a[2]+"-"+[b[2]]);
+return a[0] - b[0];
+});
+
+*/
+
+
+
 
 //배열 비교 및 값은 값 제거 (총 인원에서 team1 인원을 뺀 나머지만 구함)
 function secondTeam(arr,arr2){
@@ -49,7 +73,7 @@ function summonerTier(allsummoner,nickname){
   }
 
 }
-
+//팀 평균 구하기
 function tieravg(team){
   let avg=0.0000000000;
   //console.log(team);
@@ -88,8 +112,14 @@ function combination(arr,r){
   
         //console.log("team1: "+chosen);
         //console.log(tieravg(chosen));
+        //let team1= chosen;
+        
         let team2 = secondTeam(arr,chosen);
+        let team1 = secondTeam(arr,team2);
+        
         //console.log("team2: "+team2);
+        getallcombination(allcombination,Math.abs(tieravg(team1)-tieravg(team2)),team1,team2);
+        //console.log(team1);
 
 
 
@@ -150,7 +180,7 @@ let summonernames= getsummonernames(allsummoner);
 let r=5;
 
 combination(summonernames,r);
-  
+console.log(allcombination);
 //console.log(tiercal(summonerTier(allsummoner,"9번")));
 //console.log(tieravg(["3번","1번","10번"]));
 
