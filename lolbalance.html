@@ -11,7 +11,10 @@
         <thead>
             <tr>
                 <td>
-                  <select name = 'user1'>
+                  <input type="text" name="user1Nickname" size="15">
+                </td>
+                <td>
+                  <select name = 'user1Tier'>
                     <option value = "challenger"> 챌린저 </option>
                     <option value = "grandmaster"> 그랜드 마스터 </option>
                     <option value = "master"> 마스터 </option>
@@ -51,6 +54,9 @@
 
 
 
+                </td>
+                <td>
+                  <input type="text" name="user2Nickname" size="15">
                 </td>
                 <td>
                   <select name = 'user2'>
@@ -91,6 +97,9 @@
 
             </tr>
             <tr>
+              <td>
+                <input type="text" name="user3Nickname" size="15">
+              </td>
                 <td>
                   <select name = 'user3'>
                     <option value = "challenger"> 챌린저 </option>
@@ -126,6 +135,9 @@
                       <option value = "iron2"> 아이언 2 </option>
                       <option value = "iron3"> 아이언 3 </option>
                       <option value = "iron4"> 아이언 4 </option>
+                </td>
+                <td>
+                  <input type="text" name="user4Nickname" size="15">
                 </td>
                 <td>
                   <select name = 'user4'>
@@ -165,6 +177,9 @@
                 </td>
             </tr>
             <tr>
+              <td>
+                <input type="text" name="user5Nickname" size="15">
+              </td>
                 <td>
                   <select name = 'user5'>
                     <option value = "challenger"> 챌린저 </option>
@@ -200,6 +215,9 @@
                       <option value = "iron2"> 아이언 2 </option>
                       <option value = "iron3"> 아이언 3 </option>
                       <option value = "iron4"> 아이언 4 </option>
+                </td>
+                <td>
+                  <input type="text" name="user6Nickname" size="15">
                 </td>
                 <td>
                   <select name = 'user6'>
@@ -239,6 +257,9 @@
                 </td>
             </tr>
             <tr>
+              <td>
+                <input type="text" name="user7Nickname" size="15">
+              </td>
                 <td>
                   <select name = 'user7'>
                     <option value = "challenger"> 챌린저 </option>
@@ -274,6 +295,9 @@
                       <option value = "iron2"> 아이언 2 </option>
                       <option value = "iron3"> 아이언 3 </option>
                       <option value = "iron4"> 아이언 4 </option>
+                </td>
+                <td>
+                  <input type="text" name="user8Nickname" size="15">
                 </td>
                 <td>
                   <select name = 'user8'>
@@ -313,6 +337,9 @@
                 </td>
             </tr>
             <tr>
+              <td>
+                <input type="text" name="user9Nickname" size="15">
+              </td>
                 <td>
                   <select name = 'user9'>
                     <option value = "challenger"> 챌린저 </option>
@@ -348,6 +375,9 @@
                       <option value = "iron2"> 아이언 2 </option>
                       <option value = "iron3"> 아이언 3 </option>
                       <option value = "iron4"> 아이언 4 </option>
+                </td>
+                <td>
+                  <input type="text" name="user10Nickname" size="15">
                 </td>
                 <td>
                   <select name = 'user10'>
@@ -388,18 +418,20 @@
             </tr>
             <tr>
               <td></td>
+              <td></td>
+              <td></td>
               <td><button width="50%" id="btn_ballance">밸런스 계산</button> </td>
         </thead>
 
     </table>
 
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
 
 
 <script>
-
+/*
 $('#btn_ballance').on('click', function () {
               //  var userid = $('#userid').val();
                 //var password = $('#password').val();
@@ -421,7 +453,7 @@ $('#btn_ballance').on('click', function () {
                 teams.push($('#user8').val());
                 teams.push($('#user9').val());
                 teams.push($('#user110').val());
-*/
+
               //  console.log(teams);
                 console.log(password);
                 $.ajax({
@@ -462,8 +494,65 @@ $('#btn_ballance').on('click', function () {
                   window.location.href = '/join';
               });
 
+*/
+$('#btn_ballance').on('click', function (){
+  let allsummoners = []
+  
+  let summoner={"nickname" : $('#user1Nickname').val() , "tier":$('#user1Tier').val()};
+  allsummoners.push;
+  summoner={"nickname" : $('#user2Nickname').val() , "tier":$('#user2Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user3Nickname').val() , "tier":$('#user3Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user4Nickname').val() , "tier":$('#user4Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user5Nickname').val() , "tier":$('#user5Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user6Nickname').val() , "tier":$('#user6Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user7Nickname').val() , "tier":$('#user7Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user8Nickname').val() , "tier":$('#user8Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user9Nickname').val() , "tier":$('#user9Tier').val()};
+  allsummoners.push
+  summoner={"nickname" : $('#user10Nickname').val() , "tier":$('#user10Tier').val()};
+  allsummoners.push
 
+  $.ajax({
+                    url: 'https://lolbalancejs.osias.duckdns.org/lolbalance',
+                    type: 'POST',
+                    traditional : true,
+                    data: allsummoners,
 
+                    success: function (data) {
+                      var obj = JSON.parse(data);
+                    //  console.log(obj);
+                         if (obj.result.code === 200) {
+                           if (obj.result.message === "demerit"){
+                             //  alert('회원가입 성공');
+                               alert("이용 정지 되었습니다.");
+                             //  window.location.href = '/';
+                           }
+                           else{
+                            alert("로그인 성공!");
+                          //  console.log(obj);
+                          }
+                        }
+                        else if (obj.result.code === 401){
+                          //  alert('회원가입 성공');
+                            alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+                          //  window.location.href = '/';
+                        } else if (onj.result.code ===403){
+                            alert("빈칸이 존재합니다.");
+                        }
+                        else{
+                          alert("시스템 오류");
+                        }
+                    }
+                });
+
+})
 
 
 </script>

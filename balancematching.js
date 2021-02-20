@@ -5,10 +5,15 @@ let express = require('express');
 let app = express();
 const fs= require('fs');
 
+let bodyParser= require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
+
+
 var server= http.createServer(app);
 
 
-let port=3010;
+let port=3011;
 
 //예시 json파일 읽기
 //let testteamjson=fs.readFileSync('C:/jh/IT/Programing/nodejs/lolbalance/lolbalance/exampleTeam.json','utf-8');
@@ -180,9 +185,15 @@ let summonernames= getsummonernames(allsummoner);
 let r=5;
 
 combination(summonernames,r);
-console.log(allcombination);
+console.log("Best 조합 - Team1: "+allcombination[0][1]+"    Team2: "+allcombination[0][2]+"    팀차이: "+allcombination[0][0]);
 //console.log(tiercal(summonerTier(allsummoner,"9번")));
 //console.log(tieravg(["3번","1번","10번"]));
+
+app.post('/callolbalance', function(req,res){
+  console.log("계산 요청  "+req.body.allsummoners);
+  
+})
+
 
 
 server.listen(port, function() {
