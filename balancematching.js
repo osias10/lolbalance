@@ -4,11 +4,14 @@ let http = require('http');
 let express = require('express');
 let app = express();
 const fs= require('fs');
+let cors=require('cors');
+
+let util = require('util');
 
 let bodyParser= require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
-
+//app.use(cors());
 
 var server= http.createServer(app);
 
@@ -24,6 +27,9 @@ let allsummoner=JSON.parse(testteamjson);
 //console.log(allsummoner[0].nickname);
 
 let allcombination=[]
+
+let ajaxdata=[];
+
 
 //모든 조합 저장
 function getallcombination(arr,avgdiff,team1,team2){
@@ -79,7 +85,7 @@ function summonerTier(allsummoner,nickname){
 
 }
 //팀 평균 구하기
-function tieravg(team){
+function tieravg(allsummoner,team){
   let avg=0.0000000000;
   //console.log(team);
   for (i=0;i<team.length;i++){
@@ -96,7 +102,7 @@ function tieravg(team){
 
 
 
-function combination(arr,r){
+function combination(ajaxdata,arr,r){
 
   
     arr = arr.sort();
@@ -121,11 +127,14 @@ function combination(arr,r){
         
         let team2 = secondTeam(arr,chosen);
         let team1 = secondTeam(arr,team2);
-        
-        //console.log("team2: "+team2);
-        getallcombination(allcombination,Math.abs(tieravg(team1)-tieravg(team2)),team1,team2);
+        //console.log("팀1");
         //console.log(team1);
-
+        //console.log("팀2");
+        //console.log(team2);
+        getallcombination(allcombination,Math.abs(tieravg(ajaxdata,team1)-tieravg(ajaxdata,team2)),team1,team2);
+        //console.log(team1);
+        //console.log(tieravg(team1));
+        //console.log(tieravg(team2));
 
 
         return chosen;
@@ -175,25 +184,86 @@ function getsummonernames(allsummoner){
   //뽑을 목록
 //let arr=[1,2,3,4,5,6,7,8,9,10];
 //소환사 이름 추출
-let summonernames= getsummonernames(allsummoner);
+//let summonernames= getsummonernames(allsummoner);
 
 
 //console.log(summonernames);
 //console.log(summonernames.indexOf("4번"));  
 
   //r개씩 뽑음
-let r=5;
+//let r=5;
 
-combination(summonernames,r);
-console.log("Best 조합 - Team1: "+allcombination[0][1]+"    Team2: "+allcombination[0][2]+"    팀차이: "+allcombination[0][0]);
+//combination(summonernames,r);
+//console.log("Best 조합 - Team1: "+allcombination[0][1]+"    Team2: "+allcombination[0][2]+"    팀차이: "+allcombination[0][0]);
 //console.log(tiercal(summonerTier(allsummoner,"9번")));
 //console.log(tieravg(["3번","1번","10번"]));
+/*
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://osias.duckdns.org/");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+*/
+//let router=express.Router();
 
-app.post('/callolbalance', function(req,res){
-  console.log("계산 요청  "+req.body.allsummoners);
+
+
+function code(type){
+  if(type == "success") return 200;
+  else if(type == "forbidden") return 403;
+  else if(type =="fail") return 401;
+  else return 400;
+}
+
+
+
+function resultJSON(type, message, result = null){
+  return JSON.stringify({
+    "result":{
+      "code" : code(type),
+      "message" : message,
+      "data" : result
+    }
+  });
+}
+
+app.post('/callolbalance', function(req,res, next){
+  let result={};
+  let data={};
+  //let summonerss=JSON.stringify(req.body);
+  //let summoners2=JSON.parse(summonerss);
+  //console.log(req);
+  ajaxdata=[];
+  console.log("계산 요청  ")
+  //console.log(req.body);
+  allcombination=[];
+  for (let i=0;i<req.body.summonersName.length;i++){
+    ajaxdata.push({"nickname" : req.body.summonersName[i], "tier" : req.body.summonersTier[i]});
+  }
+  console.log(ajaxdata);
+  let summonernames= getsummonernames(ajaxdata);
+
+  let r=5;
+  combination(ajaxdata,summonernames,r);
+  console.log("Best 조합 - Team1: "+allcombination[0][1]+"    Team2: "+allcombination[0][2]+"    팀차이: "+allcombination[0][0]);
+  console.log("2nd 조합 - Team1: "+allcombination[1][1]+"    Team2: "+allcombination[1][2]+"    팀차이: "+allcombination[1][0]);
+  console.log("3rd 조합 - Team1: "+allcombination[2][1]+"    Team2: "+allcombination[2][2]+"    팀차이: "+allcombination[2][0]);
+
+  //console.log("계산 요청  "+req.body.nickname);
+  //console.log(summonerss);
+  //console.log("계산 요청  "+JSON.stringify(req.body));
+  //console.log("계산 요청  "+req.body.sendData);
+  //res.header("Access-Control-Allow-Origin", "https://osias.duckdns.org");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+  result= resultJSON("success","success",allcombination);
+  //console.log(allcombination);
+  res.send(result);
   
-})
+});
 
+//app.use('/',router);
 
 
 server.listen(port, function() {
